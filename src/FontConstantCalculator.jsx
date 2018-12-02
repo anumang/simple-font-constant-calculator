@@ -84,7 +84,9 @@ export default class FontConstantCalculator extends React.Component {
 						if(prevBoxHeight !== currentHeight) {
 							div.style.width = (parseFloat(div.style.width.replace(/^\d\./g, '')) + 1) + fontUnit;
 						} else {
-							this.setState({finalWidth: div.style.width, finalCharCount: div.innerHTML.length, calculatedFontConstant: fontSizeDecimal / (parseFloat(div.style.width.replace(/^\d\./g, '')) / div.innerHTML.length) });
+							const charLength = (new RegExp(/(&[^&;]+;)/g).test(div.innerHTML)) ? div.innerHTML.match(new RegExp(/(&[^&;]+;)/g)).length  : div.innerHTML.length;
+							const calculatedFontConstant = fontSizeDecimal / (parseFloat(div.style.width.replace(/^\d\./g, '')) / charLength);
+							this.setState({finalWidth: div.style.width, finalCharCount: charLength, calculatedFontConstant} );
 							containerNode.removeChild(div);
 							clearInterval(this.calculationBackwardInterval);
 						}
