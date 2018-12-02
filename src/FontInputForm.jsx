@@ -75,8 +75,8 @@ export default class FontInputForm extends React.Component {
 					</FormGroup>
 					<FormGroup check disabled={disabled}>
 						<Label check>
-							<Input type='radio' name='formUnit'  onChange={() => this.setFormValue('fontUnit', 'em')} checked={this.state.fontUnit === 'em'} />
-							{' em'}
+							<Input type='radio' name='formUnit'  onChange={() => this.setFormValue('fontUnit', 'rem')} checked={this.state.fontUnit === 'rem'} />
+							{' rem'}
 						</Label>
 					</FormGroup>
 				</FormGroup>

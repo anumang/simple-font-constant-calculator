@@ -49,7 +49,7 @@ export default class FontConstantCalculator extends React.Component {
 	prepareCalculation(fontSize, characterCode, fontUnit) {
 		const {boxWidthMultiplier} = this.state;
 		if(fontSize && !isNaN(parseFloat(fontSize))) {
-			const fontSizeDecimal = fontUnit==='em' ? parseFloat(fontSize) * 16 : parseFloat(fontSize);
+			const fontSizeDecimal = fontUnit==='rem' ? parseFloat(fontSize) * 16 : parseFloat(fontSize);
 			const boxWidth = boxWidthMultiplier * fontSizeDecimal;
 			if(this.state.boxWidth !== boxWidth) {
 				this.setState({boxWidth}, () => this.createCalculationSpan(fontSizeDecimal, characterCode, 'px'));
