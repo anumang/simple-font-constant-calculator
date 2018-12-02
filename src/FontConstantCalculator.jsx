@@ -27,18 +27,22 @@ export default class FontConstantCalculator extends React.Component {
 
 	componentDidMount() {
 		const {fontSize, characterCode, fontUnit} = this.props;
-		this.prepareCalculation(fontSize, characterCode, fontUnit);
+		this.prepareCalculation(fontSize, this.checkExceptionalChars(characterCode), fontUnit);
 	}
 
 	componentWillUpdate(nextProps) {
 		const {characterCode, fontSize, fontFamily} = this.props;
 		if(nextProps.characterCode !== characterCode || nextProps.fontSize !== fontSize || nextProps.fontFamily !== fontFamily ) {
-			this.prepareCalculation(nextProps.fontSize, nextProps.characterCode, nextProps.fontUnit);		
+			this.prepareCalculation(nextProps.fontSize, this.checkExceptionalChars(nextProps.characterCode), nextProps.fontUnit);		
 		}
 	}
 
-	convertFontSizeToPxValue() {
-		
+	checkExceptionalChars(characterCode) {
+		// Replace breakable space with un-breakable
+		if(characterCode === 32) {
+			return 160;
+		}
+		return characterCode;
 	}
 
 	prepareCalculation(fontSize, characterCode, fontUnit) {
