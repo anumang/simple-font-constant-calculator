@@ -65,7 +65,8 @@ export default class App extends React.Component {
 						<Jumbotron>
 							<h1 className='display-3'>Simple Font Constant Calculator</h1>
 							<p className='lead'>This is a simple font constant calculator. With given details, 
-							you can easily get calculated font constants for each characters and also get average font constant value over calculated characters.</p>
+							you can easily get calculated font constants for each characters</p>
+							<p className='lead'>After calculation, you can also get average value over all characters and able to download result JSON object.</p>
 							<hr className='my-2' />
 							<p>It uses ASCII character values set from #32 to #126. Later on planning to support for unicode range.</p>
 						</Jumbotron>
@@ -73,15 +74,22 @@ export default class App extends React.Component {
 				</Row>
 				<Row>
 					<Col xs='12' sm='6'>
-						<FontInputForm onFormClear={() => this.clearCalculation()} onFormSubmit={(inputs) => this.startCalculation(inputs)} disabled={calculationInProgressCount !== 0} showClear={calculationInProgressCount !== 0 || Object.keys(calculatedCharConstants).length}/>
+						<FontInputForm 
+							onFormClear={() => this.clearCalculation()}
+							onFormSubmit={(inputs) => this.startCalculation(inputs)}
+							disabled={calculationInProgressCount !== 0}
+							showClear={calculationInProgressCount !== 0 || Object.keys(calculatedCharConstants).length}/>
 					</Col>
 				</Row>
 				<Row>
-					<Col xs='12'>
-						<div style={{textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold'}}>
-							{calculationInProgressCount === 0 && Object.keys(calculatedCharConstants).length
+					<Col xs={12} sm={12} style={{textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold', padding: '20px'}}>
+						{ (calculationInProgressCount === 0 && Object.keys(calculatedCharConstants).length) ?  <a download={'calculated-font-contants-result.json'} class={'btn btn-success'}  href={`data:application/json;charset=utf-8;,${encodeURIComponent(JSON.stringify(calculatedCharConstants))}`}  target={'_blank'}>Download Result</a> : null}
+					</Col> 
+				</Row>
+				<Row>
+					<Col xs={12} sm={12} style={{textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold', padding: '20px', paddingBottom: '40px'}}>
+						{calculationInProgressCount === 0 && Object.keys(calculatedCharConstants).length
 							 ? `Average Font Constant Value: ${(Object.keys(calculatedCharConstants).map((key) => calculatedCharConstants[key]).reduce((a,b) => a + b, 0) / Object.keys(calculatedCharConstants).length)}` : ''}
-						</div>
 					</Col>
 				</Row>
 				{ calculationInProgressCount || Object.keys(calculatedCharConstants).length ? this.renderCalculators() : null }

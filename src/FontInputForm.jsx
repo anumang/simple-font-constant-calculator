@@ -93,7 +93,7 @@ export default class FontInputForm extends React.Component {
 				</FormGroup>
 				<Row>
 					<Col xs={6} sm={4}>
-						<Button color="primary" disabled={disabled || this.state.fontSize <= 0 || this.state.fontFamily.length === 0} onClick={() => this.onFormSubmit()}>Start Calculation</Button>
+						<Button color="primary" disabled={disabled || this.state.fontSize <= 0 || this.state.fontFamily.length === 0} onClick={() => this.onFormSubmit()}>{disabled ? 'Calculating...' :'Start Calculation'}</Button>
 					</Col>
 					<Col xs={6} sm={4}>
 						{showClear ? <Button color="warning" disabled={disabled || this.state.fontSize <= 0 || this.state.fontFamily.length === 0} onClick={() => this.onFormClear()}>Clear</Button> : null}
