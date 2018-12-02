@@ -12,12 +12,17 @@ export default class App extends React.Component {
 		super(props);
 		this.state = {
 			calculationInProgress: false,
-			formInputs: {}
+			formInputs: {},
+			calculatedCharConstants: {}
 		}
 	}
 
 	startCalculation(formInputs) {
 		this.setState({formInputs, calculationInProgress: true });
+	}
+
+	setCharConstant(charCode, fontConstant) {
+		this.setState({calculatedCharConstants: Object.assign(this.state.calculatedCharConstants, {[charCode]: fontConstant})});
 	}
 
 	renderCalculators() {
@@ -29,7 +34,7 @@ export default class App extends React.Component {
 			calcRows.push(
 				<Row>
 					<Col xs='12'>
-						<FontConstantCalculator {...formInputs} characterCode={i}/>
+						<FontConstantCalculator {...formInputs} characterCode={i} onCalculationCompleted={(charCode, fontConstant) => this.setCharConstant(charCode, fontConstant)}/>
 					</Col>
 				</Row>
 			)

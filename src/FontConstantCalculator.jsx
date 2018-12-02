@@ -8,6 +8,7 @@ export default class FontConstantCalculator extends React.Component {
 		fontSize: PropTypes.string.isRequired,
 		fontUnit: PropTypes.string.isRequired,
 		fontFamily: PropTypes.string.isRequired,
+		onCalculationCompleted: PropTypes.func
 	}
 
 	constructor(props) {
@@ -88,6 +89,9 @@ export default class FontConstantCalculator extends React.Component {
 							const calculatedFontConstant = fontSizeDecimal / (parseFloat(div.style.width.replace(/^\d\./g, '')) / charLength);
 							this.setState({finalWidth: div.style.width, finalCharCount: charLength, calculatedFontConstant} );
 							containerNode.removeChild(div);
+							if(this.props.onCalculationCompleted && typeof this.props.onCalculationCompleted === 'function') {
+								this.props.onCalculationCompleted(this.props.characterCode, calculatedFontConstant);
+							}
 							clearInterval(this.calculationBackwardInterval);
 						}
 					}, 500)
