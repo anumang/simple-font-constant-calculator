@@ -1,3 +1,3 @@
 # Simple Font Constant Calculator
-* This is a simple font constant calculator with font family, font size and optional character set inputs.You can easily get font constants for each chars and result of average font constant value.</p>
-* It uses default ASCII character set from #33 to #126. Optionally you can give your char set for calculation.
+* This is a simple font constant calculator. With given details, you can easily get calculated font constants for each characters
+* It uses ASCII character values set from #32 to #126. Later on planning to support for unicode range.
