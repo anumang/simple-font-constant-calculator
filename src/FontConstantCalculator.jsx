@@ -52,7 +52,7 @@ export default class FontConstantCalculator extends React.Component {
 			const fontSizeDecimal = fontUnit==='em' ? parseFloat(fontSize) * 16 : parseFloat(fontSize);
 			const boxWidth = boxWidthMultiplier * fontSizeDecimal;
 			if(this.state.boxWidth !== boxWidth) {
-				this.setState({boxWidth}, () => this.createCalculationSpan(fontSizeDecimal, characterCode, fontUnit));
+				this.setState({boxWidth}, () => this.createCalculationSpan(fontSizeDecimal, characterCode, 'px'));
 			}
 		}
 	}
@@ -104,16 +104,16 @@ export default class FontConstantCalculator extends React.Component {
 	}
 
 	render() {
-		const {fontFamily, fontSize, characterCode } = this.props;
+		const {fontFamily, fontSize, fontUnit, characterCode } = this.props;
 		const {calculatedFontConstant} = this.state;
-		const fontStyles = {fontFamily, fontSize, wordBreak: 'break-word', wordWrap: 'break-word', overflowWrap: 'break-word', textAlign: 'center'};
+		const fontStyles = {fontFamily, fontSize: (fontSize + fontUnit), wordBreak: 'break-word', wordWrap: 'break-word', overflowWrap: 'break-word', textAlign: 'center'};
 		return (
-			<div>
-				<div style={fontStyles} ref={this.containerRef}>
+			<div style={fontStyles} >
+				<div ref={this.containerRef} style={{fontSize: '1.5rem'}}>
 					{String.fromCharCode(characterCode)}
 				</div>
 				{calculatedFontConstant ? 
-				(<div style={fontStyles}>
+				(<div style={{fontSize: '1.5rem'}}>
 					{`Font Constant:${calculatedFontConstant.toFixed(3)}`}
 				</div>)
 				: (

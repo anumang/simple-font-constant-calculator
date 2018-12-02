@@ -10,19 +10,32 @@ export default class App extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			calculationInProgress: false,
-			formInputs: {},
+		this.state = this.getInitialState();
+	}
+
+	getInitialState() {
+		return {
+			calculationInProgressCount: 0,
+			formInputs: {
+				asciiStartIndex: 0,
+				asciiEndIndex: 0
+			},
 			calculatedCharConstants: {}
 		}
 	}
 
 	startCalculation(formInputs) {
-		this.setState({formInputs, calculationInProgress: true });
+		this.setState({formInputs, calculationInProgressCount: (formInputs.asciiEndIndex - formInputs.asciiStartIndex + 1) });
 	}
 
 	setCharConstant(charCode, fontConstant) {
-		this.setState({calculatedCharConstants: Object.assign(this.state.calculatedCharConstants, {[charCode]: fontConstant})});
+		const {calculatedCharConstants, formInputs, calculationInProgressCount} = this.state;
+
+		this.setState({calculatedCharConstants: Object.assign(this.state.calculatedCharConstants, {[charCode]: fontConstant}), calculationInProgressCount: this.state.calculationInProgressCount - 1});
+	}
+
+	clearCalculation() {
+		this.setState(this.getInitialState());
 	}
 
 	renderCalculators() {
@@ -43,26 +56,27 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		const {formInputs, calculationInProgress} = this.state
+		const {formInputs, calculationInProgressCount, calculatedCharConstants} = this.state
+
 		return (
 			<Container>
 				<Row>
 					<Col xs='12'>
 						<Jumbotron>
 							<h1 className='display-3'>Simple Font Constant Calculator</h1>
-							<p className='lead'>This is a simple font constant calculator with font family, font size and optional character set inputs. 
-							You can easily get font constants for each chars and result of average font constant value.</p>
+							<p className='lead'>This is a simple font constant calculator. With given details, 
+							you can easily get calculated font constants for each characters.</p>
 							<hr className='my-2' />
-							<p>It uses default ASCII character set from #33 to #126. Optionally you can give your char set for calculation.</p>
+							<p>It uses ASCII character values set from #32 to #126. Later on planning to support for unicode range.</p>
 						</Jumbotron>
 					</Col>
 				</Row>
 				<Row>
 					<Col xs='12' sm='6'>
-						<FontInputForm  onFormSubmit={(inputs) => this.startCalculation(inputs)} disabled={calculationInProgress}/>
+						<FontInputForm onFormClear={() => this.clearCalculation()} onFormSubmit={(inputs) => this.startCalculation(inputs)} disabled={calculationInProgressCount !== 0} showClear={calculationInProgressCount !== 0 || Object.keys(calculatedCharConstants).length}/>
 					</Col>
 				</Row>
-				{ calculationInProgress ? this.renderCalculators() : null }
+				{ calculationInProgressCount || Object.keys(calculatedCharConstants).length ? this.renderCalculators() : null }
 			</Container>
 		);
 	}
