@@ -110,7 +110,7 @@ export default class FontConstantCalculator extends React.Component {
 		return (
 			<div style={fontStyles} >
 				<div ref={this.containerRef} style={{fontSize: '1.5rem'}}>
-					{String.fromCharCode(characterCode)}
+					{`Character:'${String.fromCharCode(characterCode)}'`}
 				</div>
 				{calculatedFontConstant ? 
 				(<div style={{fontSize: '1.5rem'}}>
